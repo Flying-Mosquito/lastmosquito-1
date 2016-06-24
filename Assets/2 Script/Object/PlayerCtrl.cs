@@ -644,19 +644,8 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
 
        
-            if (coll.gameObject.tag == "humanSight"&& (EnemyAI.State.ATTACK==EnemyAI.Instance.state))
-            {
-               Damaged(30);
-            }
 
-        if (coll.gameObject.tag == "damage")
-        {
-            Damaged(30);
-
-
-
-
-        }
+     
 
         if (coll.gameObject.tag == "Arrive")
         {
