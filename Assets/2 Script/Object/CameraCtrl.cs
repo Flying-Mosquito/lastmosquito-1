@@ -12,9 +12,9 @@ public class CameraCtrl : Singleton<CameraCtrl>
     public bool isLookFar;
     Vector3 vLerp;
 
-    private List<GameObject> preRayHitObjList = new List<GameObject>();      //이전에 충돌한 gameObject를 가지고 있는 List
+    private List<ObjStruct> preRayHitObjList = new List<ObjStruct>();      //이전에 충돌한 gameObject를 가지고 있는 List
                                                                              //private GameObject Camera;
-
+    //private List<string> preRayHitObj
 
     public eMoveState moveState = eMoveState.COLLIDER;
 
@@ -91,68 +91,37 @@ public class CameraCtrl : Singleton<CameraCtrl>
                 }
            
             }
-            MakeObjTransform();
+            MakeObjTransparent();
         }
         else  // movecState == eMoveState.COLLIDER;
         {
-            // transform.position = CollisionManager.Instance.Get_RayCollisionPositionFromObj(transform.position,  )
             if (PlayerCtrl.Instance.state == Constants.ST_CLING)
             {
                 // 카메라가 멀리 떨어지게함...
                 if (isLookFar != true)
                 {
                     StartCoroutine("DelayLerpPosition", 1.5f);
-                    //tr.localPosition = Vector3.Lerp(tr.localPosition
-                    //                   , FirstLocalPosition + new Vector3(Target_fXAngle * 0.8f, 0.01f, -Target_fSpeed * 0.1f)
-                    //                 , 0.1f);
+           
                 }
                 else
                 {
-                    // if (isCollisionOthers != true)  // 카메라 충돌 체크, 플레이어가 가려지는 일이 발생하지 않게 함
-                    //  {
+                   // 카메라 충돌 체크, 플레이어가 가려지는 일이 발생하지 않게 함
+                   
                     Vector3 vDir = transform.position - targetTr.position;
                     vDir.Normalize();
 
-                    //if (fTargetDist < fFarDist)
-                     //   fTargetDist += Time.deltaTime;
 
                     if (fTargetDist < fFarDist)
                         fTargetDist = Mathf.Lerp(fTargetDist, fFarDist, 0.3f);
 
                     //이게 정상동작 코드
                     // transform.position = CollisionManager.Instance.Get_RayCollisionPositionFromObj(targetTr.position, vDir, fFarDist, "CAMERA");
-                    transform.position = CollisionManager.Instance.Get_RayCollisionPositionFromObj(targetTr.position, vDir, fTargetDist, "CAMERA");
-
-                    //Vector3 vRayPos = CollisionManager.Instance.Get_RayCollisionPositionFromObj(targetTr.position, vDir, fFarDist, "CAMERA");
-                 //   print("position : " + transform.position + ", vRay : " + vRayPos);
-                
-                 
-                    //transform.position = Vector3.Lerp(transform.position, vRayPos, 0.1f);
-                   // transform.position = vLerp;
-                    print("position : " + transform.position);
-                    //transform.position = CollisionManager.Instance.Get_RayCollisionPositionFromObj(transform.position,  )
-
-                    /*
-                      //tr.localPosition = Vector3.Lerp(tr.localPosition
-                      //                     , FirstLocalPosition + new Vector3(Target_fXAngle * 0.8f, 0.15f, -20f)
-                          //                   , 0.05f);
-                      tr.localPosition = Vector3.Lerp(tr.localPosition
-                      , FirstLocalPosition + new Vector3(Target_fXAngle * 0.8f, Target_fYAngle * 0.8f, -20f)
-                      , 0.05f);
-                    */
-                    //   }
+                    transform.position = CollisionManager.Instance.Get_RayCollisionPositionFromObj(targetTr.position, vDir, fTargetDist, "WALL");
 
                 }
             }
-        
-
-
-
-
-
+            MakeObjTransparent();
         }
-
-        // }
 
     }
 
@@ -174,10 +143,10 @@ public class CameraCtrl : Singleton<CameraCtrl>
     {
         transform.localPosition = _pos;
     }
-    private void MakeObjTransform()
+    private void MakeObjTransparent()
     {
         RaycastHit[] RayHit = CollisionManager.Instance.Get_RayCollisionsAFromB(this.transform, rayTarget);     // 여기에 충돌한 정보가 들어감 
-        List<GameObject> newRayHitObjList = new List<GameObject>();                                             // RayHit에서 충돌한 충돌체들을 넣어줄 것임 
+        List<ObjStruct> newRayHitObjList = new List<ObjStruct>();   // RayHit에서 충돌한 충돌체들을 넣어줄 것임 
 
         // RayHit에서 충돌한 충돌체들을 newRayHitObjList에 넣어줌
         for (int i = 0; i < RayHit.Length; ++i)
@@ -185,13 +154,57 @@ public class CameraCtrl : Singleton<CameraCtrl>
             if (RayHit[i].collider.gameObject.CompareTag("PLAYER"))
                 continue;
             else
-                newRayHitObjList.Add(RayHit[i].collider.gameObject);
+            {
+               
+                ObjStruct objStruct = new ObjStruct();
+                MeshRenderer tempRenderer;  // null 체크할 변수 
+                objStruct._obj = RayHit[i].collider.gameObject;
+                if (preRayHitObjList.Count != 0)
+                {
+                    for (int j = 0; j < preRayHitObjList.Count; ++j)
+                    {
+                        Shader tempShader;
+
+                        if (!(tempShader = preRayHitObjList.Find(delegate (ObjStruct _objStruct) { return (_objStruct._obj.name == RayHit[i].collider.gameObject.name); })._objShader))
+                        {   // 이전에 투명해졌던 객체가 아니라면 shader정보를 받아오고, 이미 투명해졌던 객체라면 shader정보를 받아오지 않는다.
+                            if (tempRenderer = RayHit[i].collider.gameObject.GetComponent<MeshRenderer>())  // MeshRenerer가 없는 경우가 있다. 그 경우에는 투명하게 할 필요가 없으므로 break.
+                                objStruct._objShader = tempRenderer.material.shader;
+                            else
+                                break;
+                        }
+                        else
+                        {
+                            objStruct._objShader = tempShader;
+                        }
+
+                    }
+                }
+                else
+                {
+                    if (tempRenderer = RayHit[i].collider.gameObject.GetComponent<MeshRenderer>())  // MeshRenerer가 없는 경우가 있다. 그 경우에는 투명하게 할 필요가 없으므로 break.
+                        objStruct._objShader = tempRenderer.material.shader;
+                    else
+                        break;
+                }
+                newRayHitObjList.Add(objStruct);
+
+            }
         }
+
+        /*
+         // preRayHitObjList와 newRayHitObjList를 비교하여, Ray가 닿지 않은 Obj라면 셰이더 상태를 원래대로 돌려 놓는다.
+                for (int j = 0; j < preRayHitObjList.Count; ++j)
+                {
+                    if (!newRayHitObjList.Find(delegate (ObjStruct _objStruct) { return (_objStruct._obj.name == preRayHitObjList[j]._obj.name); })._obj) //preRayHitObjList[i]);
+                    {
+                    }
+                }
+        */
 
         // newRayHitObjList에 들어가 있는 Obj들의 셰이더를 투명하게 바꿈 
         for (int i = 0; i < newRayHitObjList.Count; ++i)
         {
-            MeshRenderer renderer = newRayHitObjList[i].GetComponent<MeshRenderer>();
+            MeshRenderer renderer = newRayHitObjList[i]._obj.GetComponent<MeshRenderer>();
             if (renderer != null)
             {
                 renderer.material.shader = Shader.Find("Transparent/VertexLit");
@@ -217,13 +230,15 @@ public class CameraCtrl : Singleton<CameraCtrl>
         // preRayHitObjList와 newRayHitObjList를 비교하여, Ray가 닿지 않은 Obj라면 셰이더 상태를 원래대로 돌려 놓는다.
         for (int i = 0; i < preRayHitObjList.Count; ++i)
         {
-            if (!newRayHitObjList.Find(delegate (GameObject _Obj) { return (_Obj.name == preRayHitObjList[i].name); })) //preRayHitObjList[i]);
+            if (!newRayHitObjList.Find(delegate (ObjStruct _objStruct) { return (_objStruct._obj.name == preRayHitObjList[i]._obj.name); })._obj ) //preRayHitObjList[i]);
             {
-                string nameShader = "Mobile/Unlit (Supports Lightmap)";
+               // string nameShader = "Mobile/Unlit (Supports Lightmap)";
                 //string nameShader = "Standard";
-                MeshRenderer renderer = preRayHitObjList[i].GetComponent<MeshRenderer>();
+                MeshRenderer renderer = preRayHitObjList[i]._obj.GetComponent<MeshRenderer>();
                 if (renderer != null)
-                    renderer.material.shader = Shader.Find(nameShader);
+                {
+                    renderer.material.shader = preRayHitObjList[i]._objShader;
+                }
                 // renderer.sharedMaterial 을 사용하래  // 수정 
             }
         }

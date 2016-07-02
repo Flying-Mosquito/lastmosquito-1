@@ -9,7 +9,7 @@ public class StageObject : MonoBehaviour {
 
     void Awake()
     {
-       col = GetComponent<Collider>();
+        col = GetComponent<Collider>();
         bCheck = false;
     
     }

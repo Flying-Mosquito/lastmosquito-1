@@ -399,14 +399,18 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             }
             else
             {
-              //  print("4번");
-                // 회전 
-                tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
-                tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
+                //  print("4번");
+                //  state = Constants.ST_MOVE;
+               // if ((variable & Constants.BV_IsMove)>0)
+              //  {
+                    // 회전 
+                    tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
+                    tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
 
-                // 움직임
-                movement.Set(tr.forward.x, tr.forward.y, tr.forward.z);
-                rigidBody.velocity = (movement * fSpeed);// * Time.deltaTime);
+                    // 움직임
+                    movement.Set(tr.forward.x, tr.forward.y, tr.forward.z);
+                    rigidBody.velocity = (movement * fSpeed);// * Time.deltaTime);
+                //}
             }
         }
         else // 붙어 있을 시 아무 동작도 하지 않도록 함 
@@ -550,7 +554,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     {
         rigidBody.velocity = _vel;
     }
-
     private IEnumerator DelayStaminaRecovery(float fTime)
     {
         variable &= ~(Constants.BV_bStaminaRecovery);   // 스테미나 회복 불가능 상태 
@@ -559,7 +562,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         variable |= Constants.BV_bStaminaRecovery;
 
     }
-
     public void Damaged(int iDamage)    //데미지를 입으면 스턴 효과도 함께 온다 
     {
         // 데미지를 입으면 HP가 감소하고, 속도가 0이 된다.
@@ -586,8 +588,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         if (iHP < 0)
             state = Constants.ST_DEATH;
     }
-
-
 
     void OnCollisionEnter(Collision coll)
     {
@@ -682,22 +682,28 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
     }
 
-    // ----------------------- 태희 
     public void boostdown()
     {
         // state = Constants.ST_BOOST;
         //variable |= Constants.BV_IsBoost;
-        variable |= Constants.BV_IsBoost;
+        //  variable |= Constants.BV_IsBoost; // 원래 있던거 - 수정중
+
+        //variable |= Constants.BV_IsMove;
+
+
     }
     public void boostup()
     {
         ///////////////////////////////////////////////// 스페이스바 뗄 때
-        variable &= ~(Constants.BV_IsBoost);//isBoost = false;
-                                            // StartCoroutine("DelayStaminaRecovery", 1f);
-        if (fStamina < 10)
-        {
-            variable &= ~(Constants.BV_bBoost); //bCheckBoost = false;
-        }
+        /*   variable &= ~(Constants.BV_IsBoost);//isBoost = false;
+                                               // StartCoroutine("DelayStaminaRecovery", 1f);
+           if (fStamina < 10)
+           {
+               variable &= ~(Constants.BV_bBoost); //bCheckBoost = false;
+           }
+           */
+     //   variable &= ~(Constants.BV_IsMove);
+
     }
     public void Rightbuttondown()
     {
@@ -705,7 +711,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         if ((Player_dest = CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
         // if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "WALL", 3f))  // 벽에 붙을지 체크 
         {
-            print("bCling");
+ 
             variable |= Constants.BV_bCling;//bCling = true;
 
             //state = Constants.ST_CLING;//|= Constants.ST_CLING;

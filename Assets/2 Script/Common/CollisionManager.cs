@@ -87,7 +87,7 @@ public class CollisionManager : Singleton<CollisionManager>
 
         return false;
     }
-
+    /*
     public Vector3 Get_RayCollisionPositionFromObj(Vector3 _pos, Vector3 _vDir, float _fDist, string _tag = "")
     {
         if (Physics.Raycast(_pos, _vDir, out hit, _fDist, ~(1 << LayerMask.NameToLayer(_tag))))
@@ -95,7 +95,14 @@ public class CollisionManager : Singleton<CollisionManager>
 
         return _pos + (_vDir * _fDist);
     }
+    */
+    public Vector3 Get_RayCollisionPositionFromObj(Vector3 _pos, Vector3 _vDir, float _fDist, string _tag = "")
+    {
+        if (Physics.Raycast(_pos, _vDir, out hit, _fDist, 1 << LayerMask.NameToLayer(_tag)))
+            return hit.point;
 
+        return _pos + (_vDir * _fDist);
+    }
     public bool Check_RayHit(Vector3 _position, Vector3 _Forward, string _Tag, float _fDist = 0) // _Obj의 forward방향, _fDist길이 만큼 만든 Ray가 충돌한 충돌체가 _Tag이름과 같다면 true리턴
     {
 

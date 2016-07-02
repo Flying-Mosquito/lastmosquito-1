@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager> {
     public float waitForLoadingSeconds;
     private bool isLoadGame = false;                                    // loding drag
     private float time;
+    
 
     // public Image fadeImage;
     void Awake()
@@ -17,7 +18,7 @@ public class GameManager : Singleton<GameManager> {
         DontDestroyOnLoad(this);
 
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
+      
         // Init_Singleton();
     }
 
@@ -46,16 +47,18 @@ public class GameManager : Singleton<GameManager> {
                 {
                     isLoadGame = false;
                     async.allowSceneActivation = true;  // 2초 후에 씬을 넘김 
+                    UIManager.isFadeOut = false;
                 }
                 yield return new WaitForFixedUpdate();
             }
-
         }
     }
 
+    public void SetWaitForLoadingSeconds(float _fTime)
+    {
+        waitForLoadingSeconds = _fTime;
+    }
 
-
-    // Use this for initialization
 
 
 
