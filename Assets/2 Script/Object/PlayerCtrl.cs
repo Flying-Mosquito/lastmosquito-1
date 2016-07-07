@@ -75,8 +75,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     }
     void FixedUpdate()
     {
-
-
         Move();
         variable &= ~(Constants.BV_bCollisionOthers);
     }
@@ -128,10 +126,12 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     {
         if (state != Constants.ST_STUN)// && state != Constants.ST_CLING)
         {
-            //# if UNITY_IOS
-            //fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
-            // fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
-            //  #else
+//#if UNITY_IOS
+      //      fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
+        //     fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
+//#endif
+            
+//#if UNITY_ANDROID
             fXAngle = Input.GetAxis("Horizontal");
             fYAngle = Input.GetAxis("Vertical");
             //#endif
@@ -401,16 +401,19 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             {
                 //  print("4번");
                 //  state = Constants.ST_MOVE;
-               // if ((variable & Constants.BV_IsMove)>0)
-              //  {
+                tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
+                tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
+                if ((variable & Constants.BV_IsMove) > 0)
+                {
                     // 회전 
-                    tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
-                    tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
+
 
                     // 움직임
                     movement.Set(tr.forward.x, tr.forward.y, tr.forward.z);
                     rigidBody.velocity = (movement * fSpeed);// * Time.deltaTime);
-                //}
+                }
+                else
+                    rigidBody.velocity = Vector3.zero;
             }
         }
         else // 붙어 있을 시 아무 동작도 하지 않도록 함 
@@ -488,7 +491,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             variable &= ~(Constants.BV_Stick);//isStick = false;
         }
     }
-
     public void ChangeTimeScale()       // 수정 - bcling?
     {                                                           // 이부분을 플레이어 상태와 비교해야 하나??
         if (((variable & Constants.BV_IsCanSlow) > 0) && ((variable & Constants.BV_bCling) == 0))//true == isCanSlow && false == bCling)
@@ -506,7 +508,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         return null;
 
     }
-
     public void SetParentNull()
     {
         tr.transform.parent = null;
@@ -519,8 +520,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         ClingObj.transform.parent = collTr;
         tr.transform.parent = ClingObj.transform;
     }
-
-
     private IEnumerator StartConfused(float fTime) // 캐릭터의 상태를 confused로 바꿔주는 함수
     {
         variable |= Constants.BV_bStun;//isConfused = true;
@@ -529,7 +528,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
         variable &= ~(Constants.BV_bStun);//isConfused = false;
     }
-
     private IEnumerator ChangeSlowVal()
     {
         //  if (true == isCanSlow)  // 키입력으로 인해 이미 변수상태가 변경된 상태라면 코루틴 꺼줌
@@ -544,7 +542,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
         variable |= Constants.BV_IsCanSlow;//isCanSlow = true;
     }
-
     private IEnumerator SetVelocityZero()
     {
         yield return new WaitForSeconds(0.5f);  // 0.5초동안 다른 물체의 영향을 받게 한다 
@@ -682,29 +679,41 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
     }
 
+    public void FlyBtDown()
+    {
+ 
+        variable |= Constants.BV_IsMove;
+
+    }
+    public void FlyBtUp()
+    {
+    
+        variable &= ~(Constants.BV_IsMove);
+
+    }
+
     public void boostdown()
     {
-        // state = Constants.ST_BOOST;
-        //variable |= Constants.BV_IsBoost;
-        //  variable |= Constants.BV_IsBoost; // 원래 있던거 - 수정중
+         state = Constants.ST_BOOST;
+        variable |= Constants.BV_IsBoost;
+          variable |= Constants.BV_IsBoost; // 원래 있던거 - 수정중
 
-        //variable |= Constants.BV_IsMove;
-
+   
 
     }
     public void boostup()
     {
         ///////////////////////////////////////////////// 스페이스바 뗄 때
-        /*   variable &= ~(Constants.BV_IsBoost);//isBoost = false;
+           variable &= ~(Constants.BV_IsBoost);//isBoost = false;
                                                // StartCoroutine("DelayStaminaRecovery", 1f);
            if (fStamina < 10)
            {
                variable &= ~(Constants.BV_bBoost); //bCheckBoost = false;
            }
-           */
-     //   variable &= ~(Constants.BV_IsMove);
+      
 
     }
+
     public void Rightbuttondown()
     {
 

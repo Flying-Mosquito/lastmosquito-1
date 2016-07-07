@@ -22,7 +22,7 @@ public class CameraCtrl : Singleton<CameraCtrl>
     public float fNormalDist;
     public float fFarDist;
     public float fTargetHeight;
-    private float fDampTrace;
+
 
     // Use this for initialization
     void Awake()
@@ -38,7 +38,6 @@ public class CameraCtrl : Singleton<CameraCtrl>
         fNormalDist = 0.8f;//1.5f;
         fFarDist = 18f;
         fTargetHeight = 0.2f;
-        fDampTrace = 5f;
         isLookFar = false;
     }
 
@@ -238,6 +237,16 @@ public class CameraCtrl : Singleton<CameraCtrl>
                 if (renderer != null)
                 {
                     renderer.material.shader = preRayHitObjList[i]._objShader;
+                    if (renderer.material.HasProperty("_Color"))
+                    {
+                        // print("rayHitObjList[i].collider.gameObject.name : " + newRayHitObjList[i].name);
+
+                        Color prevColor = renderer.material.GetColor("_Color");
+                        //print("color : " + prevColor);
+                        //renderer.material.SetFloat("_Mode", 3f);
+                        renderer.material.SetColor("_Color", new Color(prevColor.r, prevColor.g, prevColor.b, 1f));
+                        //   print("컬러에 들어옴");
+                    }
                 }
                 // renderer.sharedMaterial 을 사용하래  // 수정 
             }
