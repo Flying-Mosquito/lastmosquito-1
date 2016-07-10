@@ -70,7 +70,6 @@ public class CollisionManager : Singleton<CollisionManager>
                                                                                        // print("길이 : " + fDist);
                                                                                        //objArr = Physics.RaycastAll(_targetTr.position, vec, fDist);//Physics.Raycast(_targetTr.position, vec, out hit, fDist))
                                                                                        //  objArr.Add( Physics.RaycastAll(_targetTr.position, vec, fDist) );
-
         return Physics.RaycastAll(_startTr.position, vec, fDist); // objArr;
 
     }
@@ -99,7 +98,10 @@ public class CollisionManager : Singleton<CollisionManager>
     public Vector3 Get_RayCollisionPositionFromObj(Vector3 _pos, Vector3 _vDir, float _fDist, string _tag = "")
     {
         if (Physics.Raycast(_pos, _vDir, out hit, _fDist, 1 << LayerMask.NameToLayer(_tag)))
+        {
+
             return hit.point;
+        }
 
         return _pos + (_vDir * _fDist);
     }

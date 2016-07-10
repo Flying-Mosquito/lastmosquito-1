@@ -2,15 +2,19 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class DragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler 
+public class FlyBtCtrl : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler 
 {
     public Transform tr;
+    public Transform boostTr;
     private Vector3 StartPosition;
     private bool isMouseDown = false;
+    
+    private PlayerCtrl player;
     // public static 
-    void Awake()
+    void Start()
     {
-        tr = GetComponent<Transform>();    
+        tr = GetComponent<Transform>();
+        player = GameObject.Find("Player").GetComponent<PlayerCtrl>();
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
@@ -19,14 +23,17 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         StartPosition = tr.position;
         
         print("눌렀다 " + StartPosition);
-        PlayerCtrl.Instance.FlyBtDown();
+        player.FlyBtDown();
     }
 
     void IDragHandler.OnDrag(PointerEventData eventData)
     {
-        print("드래그한다");
-        tr.position = Input.mousePosition;
-        PlayerCtrl.Instance.boostdown();
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            print("드래그한다");
+            tr.position = Input.mousePosition;
+            player.boostdown();
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -34,8 +41,8 @@ public class DragHandler : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         isMouseDown = false; 
         tr.position = StartPosition;
         print("뗐다 " + StartPosition);
-        
-        PlayerCtrl.Instance.FlyBtUp();
-        PlayerCtrl.Instance.boostup();
+
+        player.FlyBtUp();
+        player.boostup();
     }
 }

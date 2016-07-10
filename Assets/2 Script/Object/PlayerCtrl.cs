@@ -126,15 +126,15 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     {
         if (state != Constants.ST_STUN)// && state != Constants.ST_CLING)
         {
-//#if UNITY_IOS
-      //      fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
-        //     fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
-//#endif
-            
 //#if UNITY_ANDROID
+  //                fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
+    //             fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
+//#else
+
+           // #if UNITY_ANDROID
             fXAngle = Input.GetAxis("Horizontal");
             fYAngle = Input.GetAxis("Vertical");
-            //#endif
+//#endif
 
             if ((-0.15f < fXAngle) && (fXAngle < 0.15f))
                 fXAngle = 0f;

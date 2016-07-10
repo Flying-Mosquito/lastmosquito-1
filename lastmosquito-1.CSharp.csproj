@@ -118,7 +118,7 @@
     <Compile Include="Assets\2 Script\Object\TimescaleChange.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChangeFromPlayer.cs" />
     <Compile Include="Assets\2 Script\Object\UI\CharacterState.cs" />
-    <Compile Include="Assets\2 Script\Object\UI\DragHandler.cs" />
+    <Compile Include="Assets\2 Script\Object\UI\FlyBtCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Option.cs" />
     <Compile Include="Assets\2 Script\Object\UI\StageChangeArrowCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Timer.cs" />

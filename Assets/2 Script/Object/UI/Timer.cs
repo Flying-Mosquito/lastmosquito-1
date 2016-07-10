@@ -23,6 +23,10 @@ public class Timer : Singleton<Timer>
         startTimer();
     }
 
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
     void Start()
     {
 

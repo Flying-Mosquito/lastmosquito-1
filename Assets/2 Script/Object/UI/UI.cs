@@ -9,18 +9,17 @@ public class UI : Singleton<UI>
     void Awake()
     {
         DontDestroyOnLoad(this);
-
         timer.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
         if (PlayerCtrl.Instance.state != Constants.ST_IDLE)
             timer.gameObject.SetActive(true);
         if (PlayerCtrl.Instance.state == Constants.ST_IDLE)
         {
+
             timer.gameObject.SetActive(false);
 
         }
