@@ -47,7 +47,16 @@ public class FlyBtCtrl : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
         if (EventSystem.current.IsPointerOverGameObject())
         {
             tr.position = CalculatePositionBetweenStartPositionAndBoostPosition(Input.mousePosition.x);//Input.mousePosition;////
-            player.boostdown();
+            if (tr.position == endPosition)
+            {
+                player.FlyBtUp();
+                player.boostdown();
+            }
+            else
+            {
+                player.boostup();
+                player.FlyBtDown();
+            }
         }
     }
 
@@ -69,7 +78,6 @@ public class FlyBtCtrl : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoin
 
        
         float _fY = fStraightAngle * (_fX - startPosition.x) + startPosition.y;
-        print("여기까지" + new Vector3(_fX, _fY, 0f));
         return new Vector3(_fX,_fY, 0f);
     }
 

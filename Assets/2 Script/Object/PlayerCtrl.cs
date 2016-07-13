@@ -698,8 +698,6 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         variable |= Constants.BV_IsBoost;
           variable |= Constants.BV_IsBoost; // 원래 있던거 - 수정중
 
-   
-
     }
     public void boostup()
     {

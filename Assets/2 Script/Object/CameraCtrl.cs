@@ -170,17 +170,12 @@ public class CameraCtrl : Singleton<CameraCtrl>
                         if (!(tempShader = preRayHitObjList.Find(delegate (ObjStruct _objStruct) { return (_objStruct._obj.name == RayHit[i].collider.gameObject.name); })._objShader)) // preRayHitObjList에 있는 이름과 RayHit에 있는 이름과 비교해서 있는 이름인지 확인
                         {   // 이전에 투명해졌던 객체가 아니라면 shader정보를 받아오고, 이미 투명해졌던 객체라면 shader정보를 받아오지 않는다.
                             if (renderer = RayHit[i].collider.gameObject.GetComponent<MeshRenderer>())//GetComponent<MeshRenderer>())  // MeshRenerer가 없는 경우가 있다. 그 경우에는 투명하게 할 필요가 없으므로 break.
-                            {
                                 objStruct._objShader = renderer.material.shader;
-                            }
                             else if (renderer = RayHit[i].collider.gameObject.GetComponentInChildren<SkinnedMeshRenderer>())//GetComponent<SkinnedMeshRenderer>())
-                            {
                                 objStruct._objShader = renderer.material.shader;
-                            }
                             else
-                            {
                                 break;
-                            }
+                            
                         }
                         else
                         {

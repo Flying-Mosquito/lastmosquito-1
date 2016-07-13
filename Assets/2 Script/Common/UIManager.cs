@@ -25,7 +25,6 @@ public class UIManager : MonoBehaviour {
             if (strSceneName != null)
             {
                 FadeOut();
-                 //  GameManager.Instance.StartCoroutine("StartLoad",)
             }
         
         }
