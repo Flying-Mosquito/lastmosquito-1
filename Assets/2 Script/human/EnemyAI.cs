@@ -4,7 +4,7 @@ using System;
 
 
 
-    public class EnemyAI  : Singleton<EnemyAI>
+public class EnemyAI : Singleton<EnemyAI>
 {
 
     public Transform target;
@@ -12,9 +12,9 @@ using System;
     public int rotationSpeed;
 
     public float angrygauge = 0;
-    
+
     Randommove movetransform;
-   
+
 
 
 
@@ -23,20 +23,20 @@ using System;
 
     public Enemy character;
 
-        public enum State
-        {
-            PATROL,CHASE,ATTACK,FOOT
-        }
+    public enum State
+    {
+        PATROL, CHASE, ATTACK, FOOT, LAID
+    }
 
-        public State state;
-        private bool alive;
-       
-      
+    public State state;
+    private bool alive;
 
-        //partol
-        public GameObject[] Randommove;
+
+
+    //partol
+    public GameObject[] Randommove;
     private int moveNumbe;
-        public float patrolSpeed = 0.5f;
+    public float patrolSpeed = 0.5f;
 
     //chase
     // Use this for initialization
@@ -45,20 +45,30 @@ using System;
         myTransform = transform;
     }
     void Start()
-        {
-      
+    {
+
         state = EnemyAI.State.PATROL;
-            alive = true;
-            StartCoroutine("FSM");
+        alive = true;
+        StartCoroutine("FSM");
     }
     void Update()
+
     {
-        if (angrygauge>10)
+
+        if ((PlayerCtrl.Instance.state == Constants.ST_BLOOD))
         {
-           
+
+            PlayerCtrl.Instance.iBlood += 1;
+            angrygauge += 1;
+
+        }
+
+        if (angrygauge > 10 && angrygauge < 90)
+        {
+
             angrygauge -= 4 * Time.deltaTime;
-           
-            if(Vector3.Distance(new Vector3(this.transform.position.x, 0, 0), new Vector3(target.transform.position.x, 0, 0)) <5)
+
+            if (Vector3.Distance(new Vector3(this.transform.position.x, 0, 0), new Vector3(target.transform.position.x, 0, 0)) < 5)
             {
                 state = EnemyAI.State.ATTACK;
             }
@@ -67,40 +77,48 @@ using System;
                 state = EnemyAI.State.CHASE;
             }
 
-            
+
 
         }
-        else if(angrygauge<10)
+        //patrol
+
+        else if (angrygauge < 10)
         {
             state = EnemyAI.State.PATROL;
         }
-        else if(angrygauge>10 && PlayerCtrl.Instance.transform.position.y<5)
+        if (angrygauge > 90)
+        {
+            state = EnemyAI.State.LAID;
+        }
+        //Foot
+        if (angrygauge < 70 && angrygauge > 10 && (Vector3.Distance(new Vector3(this.transform.position.x, 0, 0), new Vector3(target.transform.position.x, 0, 0)) < 5) && PlayerCtrl.Instance.transform.position.y < 5)
         {
             state = EnemyAI.State.FOOT;
         }
+
     }
 
 
-   
+
 
     //   myTransform.rotation = Quaternion.Euler(0, target.position.z - myTransform.position.z * rotationSpeed * Time.deltaTime, 0);
     // myTransform.rotation = Quaternion.LookRotation(new Vector3(0, target.position.y,0) - myTransform.position);
 
 
     IEnumerator FSM()
+    {
+        while (alive)
         {
-            while(alive)
+            switch (state)
             {
-                switch(state)
-                {
-                    case State.PATROL:
-                        
-                            Patrol();
-                            break;
-                        
-                    case State.CHASE:
-                            Chase();
-                            break;
+                case State.PATROL:
+
+                    Patrol();
+                    break;
+
+                case State.CHASE:
+                    Chase();
+                    break;
                 case State.ATTACK:
                     Attact();
                     break;
@@ -108,23 +126,30 @@ using System;
                 case State.FOOT:
                     Foot();
                     break;
-                }
-
-                yield return null;
+                case State.LAID:
+                    Laid();
+                    break;
             }
-        }
 
+            yield return null;
+        }
+    }
+
+    void Laid()
+    {
+
+    }
     void Foot()
     {
 
     }
 
     void Patrol()
-        {
-    GameObject go = GameObject.FindGameObjectWithTag("Move");
+    {
+        GameObject go = GameObject.FindGameObjectWithTag("Move");
 
-    target = go.transform;
-    myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
+        target = go.transform;
+        myTransform.rotation = Quaternion.Slerp(myTransform.rotation, Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed * Time.deltaTime);
         myTransform.position += new Vector3(myTransform.forward.x * moveSpeed * Time.deltaTime, 0, myTransform.forward.z * moveSpeed * Time.deltaTime);
         //if (Vector3.Distance(this.transform.position,Randommove[moveNumber].transform.position)>=2)
         //        {
@@ -136,7 +161,7 @@ using System;
 
 
     void Chase()
-        {
+    {
         GameObject go = GameObject.FindGameObjectWithTag("PLAYER");
 
         target = go.transform;
@@ -152,14 +177,8 @@ using System;
     {
 
     }
-    void OnTriggerEnter(Collider coll)
-        {
-        if(coll.tag =="PLAYER")
-        {
-            state = EnemyAI.State.CHASE;
-        }
-        }
 
-        // Update is called once per frame
 
-    }
+    // Update is called once per frame
+
+}

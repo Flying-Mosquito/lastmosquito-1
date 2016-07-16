@@ -8,7 +8,7 @@ public class EnemyAnimaion : MonoBehaviour
     void Awake()
     {
         anim = GetComponent<Animator>();
-    
+
     }
     /*
 	void Start () {
@@ -17,7 +17,7 @@ public class EnemyAnimaion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
 
         switch (EnemyAI.Instance.state)
         {
@@ -47,6 +47,11 @@ public class EnemyAnimaion : MonoBehaviour
             case EnemyAI.State.FOOT:
                 {
                     anim.Play("foot");
+                    break;
+                }
+            case EnemyAI.State.LAID:
+                {
+                    anim.Play("laid");
                     break;
                 }
 

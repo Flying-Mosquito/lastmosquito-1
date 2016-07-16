@@ -33,7 +33,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     private float fOwnSpeed;//    { get; private set; }    // 일반속도 값                   private
     private float fRotSpeed;// { get; private set; }                    //private
                             // public  float fOwnRotSpeed  { get; private set; }     //private 
-
+    public float startTime;
     public float fXAngle { get; private set; }      // 좌우   회전값
     public float fYAngle { get; private set; }      // 위아래 회전값
 
@@ -60,7 +60,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         variable = Constants.BV_bBoost | Constants.BV_Stick | Constants.BV_IsCanSlow | Constants.BV_bStaminaRecovery;
         
 
-        fStamina = 200f;
+        fStamina = 180f;
         fStaminaMinus = 40f;
 
         fXAngle = 0f;
@@ -89,7 +89,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                             // rigidBody.velocity = Vector3.zero;  // 이것도 해제해야 할 거야 
                             // print("STATE : " + state); // 플레이어 상태확인 
                             //print("Stamina : " + fStamina);
-                            
+
         /*
                                     print("┌──────────────────────────────────────────┐");
                                     if ((variable & Constants.BV_IsBoost) > 0)
@@ -121,6 +121,36 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                                     //   print("└──────────────────────────────────────────┘");
                                     
         */
+
+        if (Vector3.Distance(new Vector3(this.transform.position.x, 0, 0), new Vector3(EnemyAI.Instance.transform.position.x, 0, 0)) < 5)
+        {
+            print("human");
+            variable |= Constants.BV_bBlood;
+
+            startTime += Time.deltaTime;
+            print(startTime);
+        }
+        else
+        {
+            print("wall");
+
+            /*tr.transform.parent = null;
+            //  tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
+            ClingObj.transform.parent = null;*/
+
+
+
+            variable &= ~(Constants.BV_bBlood);
+        }
+
+        if (startTime > 5)
+        {
+
+            Rightbuttonup();
+            startTime = 0;
+
+
+        }
     }
     private void KeyInput()     // StateCheck 로 이름을 바꾸자..
     {
@@ -241,8 +271,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         {
             print("blood");
             state = Constants.ST_BLOOD;
-            iBlood += 1;
-           EnemyAI.Instance.angrygauge += 1;
+          
 
         }
         else if ((variable & Constants.BV_IsCling) > 0)
@@ -574,7 +603,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
             variable &= ~(Constants.BV_bCling);
             variable &= ~(Constants.BV_IsCling);
-
+            variable &= ~(Constants.BV_bBlood);
             Player_dest = null;       // 목표 물방울이 없어진다 
             dest_script = null;
             variable &= ~(Constants.BV_ClickRaindrop);// isClickRaindrop = false;
@@ -625,12 +654,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
 
 
-        if (coll.gameObject.tag == "human")
-        {
-            print("human");
-            variable |= Constants.BV_bBlood;
-
-        }
+        
 
         if (coll.gameObject.tag == "FROG_TONGUE")
         {
