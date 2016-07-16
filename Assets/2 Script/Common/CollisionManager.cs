@@ -36,16 +36,17 @@ public class CollisionManager : Singleton<CollisionManager>
         return false;
     }
 
-    public GameObject Get_MouseCollisionObj(float _fDist = 3000f, string _tag = "")
+    public GameObject Get_MouseCollisionObj(float _fDist = 3000f, string _Layer = "")   // _Layer 레이어를 가진 물체중에서 마우스와 충돌된 물체 리턴 
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //   Debug.DrawRay(ray.origin, ray.direction, Color.green); // 여기서 해도 안보여요 
         bool bRaycast;
 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
         // _tag가 있으면 레이어 비교, _tag가 없으면 그냥 Raycast
-        if ("" != _tag)
+        if ("" != _Layer)
         {
-            bRaycast = Physics.Raycast(ray, out hit, _fDist, 1 << LayerMask.NameToLayer(_tag));
+            bRaycast = Physics.Raycast(ray, out hit, _fDist, 1 << LayerMask.NameToLayer(_Layer));
         }
         else
         {
@@ -55,7 +56,6 @@ public class CollisionManager : Singleton<CollisionManager>
         if (!bRaycast)  // bRaycast가 false면 null 리턴 
             return null;
 
-        //else if (hit.collider.tag == _tag)
         return hit.collider.gameObject;
 
         // return null;
@@ -86,15 +86,7 @@ public class CollisionManager : Singleton<CollisionManager>
 
         return false;
     }
-    /*
-    public Vector3 Get_RayCollisionPositionFromObj(Vector3 _pos, Vector3 _vDir, float _fDist, string _tag = "")
-    {
-        if (Physics.Raycast(_pos, _vDir, out hit, _fDist, ~(1 << LayerMask.NameToLayer(_tag))))
-            return hit.point;
 
-        return _pos + (_vDir * _fDist);
-    }
-    */
     public Vector3 Get_RayCollisionPositionFromObj(Vector3 _pos, Vector3 _vDir, float _fDist, string _tag = "")
     {
         if (Physics.Raycast(_pos, _vDir, out hit, _fDist, 1 << LayerMask.NameToLayer(_tag)))
@@ -127,24 +119,8 @@ public class CollisionManager : Singleton<CollisionManager>
         vDir.Normalize();
 
         if (Physics.Raycast(_trPoint.transform.position, vDir, out hit, _fLength) && (Vector3.Angle(_trPoint.forward, vDir) < _fAngle))   // 범위안에 들어와 있으면서, 각도가 40보다 작다
-        {
-            //  Debug.Log("들어옴");
-            //  if (false == bCheck)
-            //  {
-            //   bCheck = true;
-
-            // _outDir = _Player.transform.position - _Tongue.transform.position;    // 방향벡터 구하기
-
-            //  vTongueDir.Normalize();               // 정규화
-            //  _Tongue.transform.rotation = Quaternion.Euler(vDir);
-
-            //}
             return true;
 
-        }
-
-        //  bCheck = false;
-        // Debug.Log("안들어옴");
         return false;
 
     }

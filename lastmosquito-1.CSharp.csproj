@@ -117,6 +117,7 @@
     <Compile Include="Assets\2 Script\Object\Randommove.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChange.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChangeFromPlayer.cs" />
+    <Compile Include="Assets\2 Script\Object\TouchEventCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\CharacterState.cs" />
     <Compile Include="Assets\2 Script\Object\UI\FlyBtCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Option.cs" />
