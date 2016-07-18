@@ -24,7 +24,7 @@ public class Logo : MonoBehaviour {
 
         //  StartCoroutine("ChangeScene");
         yield return new WaitForSeconds(3.0f);
-        GameManager.Instance.StartCoroutine("StartLoad", "01 MainMenu");
+        GameManager.Instance.StartCoroutine("StartLoad", "login");
         
     }
 

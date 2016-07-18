@@ -29,4 +29,8 @@ public class Option : MonoBehaviour {
         Timer.Instance.totaltime = 60;
         Timer.Instance.isEnable = true;
     }
+    public void backLobby()
+    {
+        SceneManager.LoadScene(13);
+    }
 }

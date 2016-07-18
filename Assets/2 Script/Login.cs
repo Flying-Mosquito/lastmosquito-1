@@ -55,13 +55,13 @@ public class Login : MonoBehaviour {
 
         if (GUI.Button(new Rect(520 - control*2, 360 - control, 120, 25), "Log in"))
         {
-         //   Application.LoadLevel(4);
+        Application.LoadLevel(13);
 
         }
-        GUI.Label(new Rect(390 - control*2, 200 - control, 220, 25), "Email");
+        GUI.Label(new Rect(300 - control*2, 200 - control, 220, 25), "Email");
         Email = GUI.TextField(new Rect(390 - control*2, 225 - control, 220,25), Email);
 
-        GUI.Label(new Rect(390 - control*2, 250 - control, 220, 25), "Password");
+        GUI.Label(new Rect(300 - control*2, 250 - control, 220, 25), "Password");
         Password = GUI.TextField(new Rect(390 - control*2, 275 - control, 220, 25), Password);
 
     }
@@ -79,17 +79,17 @@ public class Login : MonoBehaviour {
         GUI.Box(new Rect(280 - control*2, 120 - control, (Screen.width / 4) + 200, (Screen.height / 4) + 250), "Create Account");
 
      
-        GUI.Label(new Rect(390 - control*2, 200 - control, 220, 25), "Email");
+        GUI.Label(new Rect(370 - control*2, 200 - control, 220, 25), "Email");
         CEmail = GUI.TextField(new Rect(390 - control * 2, 225 - control, 220, 25), CEmail);
 
-        GUI.Label(new Rect(390 - control * 2, 250 - control, 220, 25), "Password");
+        GUI.Label(new Rect(370 - control * 2, 250 - control, 220, 25), "Password");
         Cpassword = GUI.TextField(new Rect(390 - control * 2, 275 - control, 220, 25), Cpassword);
 
 
-        GUI.Label(new Rect(390 - control * 2, 320 - control, 220, 25), "Confirm Email");
+        GUI.Label(new Rect(370 - control * 2, 320 - control, 220, 25), "Confirm Email");
         ConfirmEmail = GUI.TextField(new Rect(390 - control * 2, 340 - control, 220, 25), ConfirmEmail);
 
-        GUI.Label(new Rect(390 - control * 2, 370 - control, 220, 25), "Confirm Password");
+        GUI.Label(new Rect(370 - control * 2, 370 - control, 220, 25), "Confirm Password");
        ConfrimPass = GUI.TextField(new Rect(390 - control * 2, 400 - control, 220, 25), ConfrimPass);
 
 

@@ -1188,7 +1188,7 @@ ModelImporter:
       name: laid
       takeName: Take 001
       firstFrame: 700
-      lastFrame: 700
+      lastFrame: 800
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
