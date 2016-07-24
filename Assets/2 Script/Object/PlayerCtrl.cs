@@ -35,7 +35,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     private float fOwnSpeed;//    { get; private set; }    // 일반속도 값                   private
     private float fRotSpeed;// { get; private set; }                    //private
                             // public  float fOwnRotSpeed  { get; private set; }     //private 
-    public float startTime;
+
     public float fXAngle { get; private set; }      // 좌우   회전값
     public float fYAngle { get; private set; }      // 위아래 회전값
 
@@ -43,13 +43,13 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     public GameObject ClingObj;
 
     public int iBlood = 0; // 흡혈량 ( 미구현 )
-    
+
 
 
     void Awake()
     {
         DontDestroyOnLoad(this);
-       
+
         ClingObj = GameObject.Find("ClingObject");
         tr = GetComponent<Transform>();
         tr_Mesh = GetComponentsInChildren<Transform>();
@@ -60,9 +60,9 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         vDir = Vector3.zero;
         state = Constants.ST_IDLE;//ST_CLING;
         variable = Constants.BV_bBoost | Constants.BV_Stick | Constants.BV_IsCanSlow | Constants.BV_bStaminaRecovery;
-        
 
-        fStamina = 180f;
+
+        fStamina = 200f;
         fStaminaMinus = 40f;
 
         fXAngle = 0f;
@@ -86,20 +86,11 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     {
         //rigidBody.velocity = Vector3.zero;
         //  if(Timer.Instance.gameover.gameObject.SetActive(false))
-        if ((variable & Constants.BV_IsCling) > 0)
-            print("│ isCling");
 
         //   print("└──────────────────────────────────────────┘");
 
         KeyInput();
         Action();
-<<<<<<< HEAD
-        RotateAnimation();  // 플레이어 몸체 회전효과
-                            // rigidBody.velocity = Vector3.zero;  // 이것도 해제해야 할 거야 
-                            // print("STATE : " + state); // 플레이어 상태확인 
-                            //print("Stamina : " + fStamina);
-
-=======
         RotateAnimation();
 
 
@@ -107,10 +98,10 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         // rigidBody.velocity = Vector3.zero;  // 이것도 해제해야 할 거야 
         // print("STATE : " + state); // 플레이어 상태확인 
         //print("Stamina : " + fStamina);
->>>>>>> origin/master
-        /*
 
-                print("┌──────────────────────────────────────────┐");
+
+        //         print("┌──────────────────────────────────────────┐");
+        /*
                 if ((variable & Constants.BV_IsBoost) > 0)
                     print("│ isBoost");
                 if ((variable & Constants.BV_bBoost) > 0)
@@ -125,74 +116,24 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                     print("│ BV_ClickRaindrop");
                 if ((variable & Constants.BV_bCollisionOthers) > 0)
                     print("│ BV_bCollisionOthers");
+                    */
+        //print("state : " + state);
 
-print("state : " + state);
-
-               // if (state == Constants.ST_CLING)
-                  //  print("│ state = ST_CLING");
-                //  if ((isInRainzone) == true)
-                //    print("│ isInRainzone");
-
+        /*
+                
                 if (Player_dest != null)
                     print("Player_dest : " + Player_dest.tag);
                 else
                     print("NULL");
-
-                //   print("└──────────────────────────────────────────┘");
-                */
-
-    /*    if (Player_dest == null)//(Constants.BV_IsCling & variable) > 0)
-            text.text = "player_dest = null";
-        else
-            text.text = "player_deest 존재";
-      */  
-        
-<<<<<<< HEAD
-                                   // if (state == Constants.ST_CLING)
-                                      //  print("│ state = ST_CLING");
-                                    //  if ((isInRainzone) == true)
-                                    //    print("│ isInRainzone");
-
-                                    if (Player_dest != null)
-                                        print("Player_dest : " + Player_dest.tag);
-                                    else
-                                        print("NULL");
-
-                                    //   print("└──────────────────────────────────────────┘");
-                                    
-        */
-
-        if (Vector3.Distance(new Vector3(this.transform.position.x, 0, 0), new Vector3(EnemyAI.Instance.transform.position.x, 0, 0)) < 5)
-        {
-            print("human");
-            variable |= Constants.BV_bBlood;
-
-            startTime += Time.deltaTime;
-            print(startTime);
-        }
-        else
-        {
-            print("wall");
-
-            /*tr.transform.parent = null;
-            //  tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
-            ClingObj.transform.parent = null;*/
+                    */
 
 
+        /*    if (Player_dest == null)//(Constants.BV_IsCling & variable) > 0)
+                text.text = "player_dest = null";
+            else
+                text.text = "player_deest 존재";
+          */
 
-            variable &= ~(Constants.BV_bBlood);
-        }
-
-        if (startTime > 5)
-        {
-
-            Rightbuttonup();
-            startTime = 0;
-
-
-        }
-=======
->>>>>>> origin/master
     }
     private void KeyInput()     // StateCheck 로 이름을 바꾸자..
     {
@@ -209,18 +150,16 @@ print("state : " + state);
         else
             Rightbuttonup();
             */
-        
+
         if (state != Constants.ST_STUN)// && state != Constants.ST_CLING)
         {
-//#if UNITY_ANDROID
+#if UNITY_ANDROID
                 fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
                 fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
-//#else
-
-           // #if UNITY_ANDROID
-           // fXAngle = Input.GetAxis("Horizontal");
-           //fYAngle = Input.GetAxis("Vertical");
-//#endif
+#else
+            fXAngle = Input.GetAxis("Horizontal");
+            fYAngle = Input.GetAxis("Vertical");
+#endif
 
             if ((-0.15f < fXAngle) && (fXAngle < 0.15f))
                 fXAngle = 0f;
@@ -236,13 +175,14 @@ print("state : " + state);
         }
 
         ///////////////////////////////////////////////// 마우스왼쪽 클릭
-
-        if(TouchEventManager.Instance.isTouch3DObj == true)
+        print("isTouch3DObj : " + TouchEventManager.Instance.isTouchBegin3DObj);
+        if (TouchEventManager.Instance.isTouchBegin3DObj == true)
         {
             if (TouchEventManager.Instance.raindrop != null)    // touch한 물체가 raindrop이라면 
             {
                 if (Constants.ST_CLING == state && (variable & Constants.BV_ClickRaindrop) > 0)//true == isCling)    // 붙어있는 상태라면 떨어질 수 있게 한다 . 붙은 상태여야 떨어질 수 있음 
                 {
+                    print("MakePArentNull - 1");
                     SetParentNull();
                     variable &= ~(Constants.BV_bCling); //  bCling = false;
                     variable &= ~(Constants.BV_IsBoost);
@@ -281,6 +221,7 @@ print("state : " + state);
             {
                 if (Constants.ST_CLING == state && (variable & Constants.BV_ClickRaindrop) > 0)//true == isCling)    // 붙어있는 상태라면 떨어질 수 있게 한다 . 붙은 상태여야 떨어질 수 있음 
                 {
+                    print("MakePArentNull - 2");
                     SetParentNull();
                     variable &= ~(Constants.BV_bCling); //  bCling = false;
                     variable &= ~(Constants.BV_IsBoost);
@@ -296,7 +237,7 @@ print("state : " + state);
                 }
             }
         }
-        
+
         /*
 
         if (Input.GetMouseButton(0))
@@ -391,14 +332,10 @@ print("state : " + state);
         {
             print("blood");
             state = Constants.ST_BLOOD;
-<<<<<<< HEAD
-          
-=======
             iBlood += 1;
 
 
             EnemyAI.Instance.angrygauge += 1;        // 이거뭐야;
->>>>>>> origin/master
 
         }
         else if ((variable & Constants.BV_IsCling) > 0)
@@ -416,7 +353,7 @@ print("state : " + state);
             fSpeed = (OWNMAXSPEED + MAXBOOST) * 2.5f;      // 수정필요 , lerp필요(카메라 ) 
             rigidBody.velocity = Vector3.zero; // 수정수정 수정 수정 수정!!!!!!!!!!!!!!!!
 
-            if ((null != Player_dest) && (variable & Constants.BV_ClickRaindrop) > 0 )// (null != dest_script))                          // 목표 빗방울이 있다면 
+            if ((null != Player_dest) && (variable & Constants.BV_ClickRaindrop) > 0)// (null != dest_script))                          // 목표 빗방울이 있다면 
             {
                 vDir = (Player_dest.transform.position) - tr.position;
                 vDir.y -= 1f;
@@ -433,7 +370,7 @@ print("state : " + state);
                         SetState_NotCling();
                     }
                 }
-   
+
             }
         }
     }
@@ -444,7 +381,7 @@ print("state : " + state);
 
         if (((variable & Constants.BV_bCollisionOthers) == 0) && ((variable & Constants.BV_IsBoost) > 0) && ((variable & Constants.BV_bBoost) > 0) && (fStamina > 0))//(bCheckBoost)) 
         { // 충돌하지 않았고, (_bool 이 true 일때 - 마우스가 클릭상태일때 이면서 , )현재 스테가 스테미나 감소량보다 크고, Boost가 가능할 때 
-         
+
             if ((variable & Constants.BV_ClickRaindrop) == 0)
                 fStamina -= (fStaminaMinus * Time.deltaTime);
 
@@ -507,7 +444,7 @@ print("state : " + state);
                      fBoostSpeed = 1f;
                      */
                 if (fStamina > 200)       // 수정필요
-                    fStamina =200;
+                    fStamina = 200;
 
                 if (fStamina > 10f)      // 스테미나가 10이상이면 사용가능
                     variable |= Constants.BV_bBoost;//bCheckBoost = true;
@@ -520,7 +457,7 @@ print("state : " + state);
     {
         if ((state == Constants.ST_IDLE) || (variable & Constants.BV_Stick) > 0) // 상태가 IDLE이거나 , 어딘가에 달라붙은 경우라면 움직이지 못함 
         {
-//print("1번");
+            //print("1번");
         }
         else if ((state == Constants.ST_STUN)) // 플레이어가 스턴상태이면 중력을 받는 것 처럼 떨어뜨림
         {
@@ -534,21 +471,21 @@ print("state : " + state);
         {   // inRainZone = true, nstate != Cling, ==> 3번하고 중복
             if (/*(Constants.ST_CLING != state) && (Constants.ST_BLOOD != state) && */((variable & Constants.BV_ClickRaindrop) > 0) && ((variable & Constants.BV_bCling) > 0))//true == isInRainzone && 
             {
-               //   print("3번");
+                //   print("3번");
                 // rigidBody.MovePosition(tr.position + (vDir * fSpeed * Time.deltaTime)); //이녀석
                 rigidBody.velocity = vDir * fSpeed;
-             //   print("vDir : " + vDir);
+                //   print("vDir : " + vDir);
                 //    print("vDir :" + vDir);
             }
             else
             {
-                  
+
                 //  state = Constants.ST_MOVE;
                 tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
                 tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
                 if ((variable & Constants.BV_IsMove) > 0)
                 {
-                 //   print("4번");
+                    //   print("4번");
                     // 회전 
 
 
@@ -558,7 +495,7 @@ print("state : " + state);
                 }
                 else
                 {
-                  //  print("5번");
+                    //  print("5번");
                     rigidBody.velocity = Vector3.zero;
                 }
             }
@@ -608,6 +545,7 @@ print("state : " + state);
             print("setState_notcling");
             variable &= ~(Constants.BV_ClickRaindrop);//isClickRaindrop = false;
 
+            print("MakePArentNull - 3");
             SetParentNull();
             //tr.transform.parent = null;
             //ClingObj.transform.parent = null;
@@ -625,7 +563,7 @@ print("state : " + state);
     }
     public void SetStateIdle(bool _bool)
     {
-      
+
         if (_bool)
         {
             state = Constants.ST_IDLE;
@@ -657,6 +595,7 @@ print("state : " + state);
     }
     public void SetParentNull()
     {
+        print("makePArentNull");
         tr.transform.parent = null;
         //  tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 수정?
         ClingObj.transform.parent = null;
@@ -717,11 +656,14 @@ print("state : " + state);
         if ((variable & Constants.BV_bCling) > 0) // 어떤 부모에 붙은 상태라면 해제
         {
             if ((variable & Constants.BV_IsCling) > 0)
+            {
+                print("MakePArentNull - 4");
                 SetParentNull();
+            }
 
             variable &= ~(Constants.BV_bCling);
             variable &= ~(Constants.BV_IsCling);
-            variable &= ~(Constants.BV_bBlood);
+
             Player_dest = null;       // 목표 물방울이 없어진다 
             dest_script = null;
             variable &= ~(Constants.BV_ClickRaindrop);// isClickRaindrop = false;
@@ -735,6 +677,7 @@ print("state : " + state);
 
     void OnCollisionEnter(Collision coll)
     {
+
         if ((variable & Constants.BV_bCling) > 0)//bCling)  // 붙으려고 하는 상태면 
         {
             if (Player_dest != null)
@@ -755,7 +698,7 @@ print("state : " + state);
                     StartCoroutine("SetVelocityZero");// 일정시간후 velocity를 0으로 만들어주는 함수고
                     if (fSpeed > OWNMAXSPEED)   // 플레이어가 붙으려고 하지 않으면 충돌 시 데미지를 줄거지.
                         Damaged(5);
-                   // text.text = "bv_iscling이 되지 않음 ";
+                    // text.text = "bv_iscling이 되지 않음 ";
                 }
             }
             else // 붙으려고 하는 상태인데 목표물이 없다면, 목표물이 사라졌음 ( 빗방울 )
@@ -778,7 +721,12 @@ print("state : " + state);
         }
 
 
-        
+        if (coll.gameObject.tag == "human")
+        {
+            print("human");
+            variable |= Constants.BV_bBlood;
+
+        }
 
         if (coll.gameObject.tag == "FROG_TONGUE")
         {
@@ -790,14 +738,6 @@ print("state : " + state);
 
 
 
-
-        if (coll.gameObject.tag == "Box" && Constants.BV_bTAKE>0)
-        {
-            state = Constants.ST_TAKE;
-
-
-
-        }
 
 
         if (coll.gameObject.tag == "Arrive")
@@ -828,7 +768,6 @@ print("state : " + state);
                 text.text = "스테이 - 데스트 존재 ";
                 if (Player_dest.gameObject == coll.gameObject)    // 충돌한 물체가 목표물과 같다면 달라붙는다 -- 벽이 여기서 에러 
                 {
-                    print("bvCling");
                     variable |= Constants.BV_IsCling;//isCling = true;
                     rigidBody.velocity = Vector3.zero;
                     MakeParent(coll.transform);
@@ -851,15 +790,15 @@ print("state : " + state);
         if (state != Constants.ST_CLING)//((variable & Constants.BV_IsCling) == 0)
         {
             variable |= Constants.BV_IsMove;
-           // text.text = "FlyBtDown";
+            // text.text = "FlyBtDown";
         }
 
     }
     public void FlyBtUp()
     {
-        
-         variable &= ~(Constants.BV_IsMove);
-        
+
+        variable &= ~(Constants.BV_IsMove);
+
     }
 
     public void boostdown()
@@ -874,39 +813,28 @@ print("state : " + state);
     {
         ///////////////////////////////////////////////// 스페이스바 뗄 때
         variable &= ~(Constants.BV_IsMove);
-           variable &= ~(Constants.BV_IsBoost);//isBoost = false;
-                                               // StartCoroutine("DelayStaminaRecovery", 1f);
-           if (fStamina < 10)
-           {
-               variable &= ~(Constants.BV_bBoost); //bCheckBoost = false;
-           }
-      
+        variable &= ~(Constants.BV_IsBoost);//isBoost = false;
+                                            // StartCoroutine("DelayStaminaRecovery", 1f);
+        if (fStamina < 10)
+        {
+            variable &= ~(Constants.BV_bBoost); //bCheckBoost = false;
+        }
+
 
     }
 
     public void ClingBtDown()
     {
         //variable &= ~(Constants.BV_IsMove);
-        
-        if ((Player_dest = CollisionManager.Instance.Get_RaycastCollisionObj(tr.position, tr.forward, 10f)) )//CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
+
+        if ((Player_dest = CollisionManager.Instance.Get_RaycastCollisionObj(tr.position, tr.forward, 10f)))//CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
         // if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "WALL", 3f))  // 벽에 붙을지 체크 
         {
-<<<<<<< HEAD
-            if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "BOX", 30f))
-            {
-                variable |= Constants.BV_bTAKE;
-            }
-           else {
-                variable |= Constants.BV_bCling;//bCling = true;
-            }
-=======
-            print("클릭버튼다운이오 *****************************");
             variable |= Constants.BV_bCling;//bCling = true;
-          //  if((variable & Constants.BV_IsCling) > 0)
-            //    variable &= ~(Constants.BV_IsMove);
+                                            //  if((variable & Constants.BV_IsCling) > 0)
+                                            //    variable &= ~(Constants.BV_IsMove);
 
-          
->>>>>>> origin/master
+
             //state = Constants.ST_CLING;//|= Constants.ST_CLING;
 
         }
@@ -918,20 +846,19 @@ print("state : " + state);
 
         if ((variable & Constants.BV_bCling) > 0)//Constants.ST_CLING == state)
         {
-            if (Constants.ST_CLING == state|| Constants.ST_BLOOD==state)
+            if (Constants.ST_CLING == state || Constants.ST_BLOOD == state)
                 SetParentNull();
             /*tr.transform.parent = null;
-            tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
+            //  tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
             ClingObj.transform.parent = null;*/
-            tr.transform.localScale = new Vector3(1, 1, 1);
-            variable &= ~(Constants.BV_bTAKE);
+
             variable &= ~(Constants.BV_bCling);//bCling = false;
             variable &= ~(Constants.BV_IsCling);//isCling = false;
             variable &= ~(Constants.BV_bBlood);
             // state = Constants.ST_FLYING;
-            
+
         }
-     
+
     }
 
     public void SetHP(int _iHP)
@@ -943,16 +870,16 @@ print("state : " + state);
     {
         rigidBody.MovePosition(Vector3.Lerp(tr.position, _vDest, 0.2f));
 
-        if ( ( tr.position.x  > (_vDest.x - 0.1f) ) && ( tr.position.x  < (_vDest.x + 0.1f) ) )
+        if ((tr.position.x > (_vDest.x - 0.1f)) && (tr.position.x < (_vDest.x + 0.1f)))
         {
             tr.position = _vDest;
         }
         //print("( tr.position.x  > (_vDest.x - float.Epsilon) )"  + (tr.position.x > (_vDest.x - float.Epsilon)));
-       // print(" ( tr.position.x  < (_vDest.x + float.Epsilon) )" + (tr.position.x < (_vDest.x + float.Epsilon)));
+        // print(" ( tr.position.x  < (_vDest.x + float.Epsilon) )" + (tr.position.x < (_vDest.x + float.Epsilon)));
 
         //rigidBody.velocity = (tr.right * _fSpeed);
-       // print("pos  : " + tr.position);
+        // print("pos  : " + tr.position);
     }
-    
+
 
 }

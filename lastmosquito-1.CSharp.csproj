@@ -116,10 +116,7 @@
     <Compile Include="Assets\2 Script\Object\Randommove.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChange.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChangeFromPlayer.cs" />
-<<<<<<< HEAD
-=======
     <Compile Include="Assets\2 Script\Object\UI\BaseButton.cs" />
->>>>>>> origin/master
     <Compile Include="Assets\2 Script\Object\UI\CharacterState.cs" />
     <Compile Include="Assets\2 Script\Object\UI\ClingBtnCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\FlyBtCtrl.cs" />
