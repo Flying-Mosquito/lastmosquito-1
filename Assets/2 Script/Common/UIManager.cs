@@ -1,12 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 //UICanvas에 넣어준다
 public class UIManager : MonoBehaviour {
 
     public static bool isFadeOut;
     public static string strSceneName;
     private Animator Anim;
+
+
+
     // Use this for initialization
     void Awake()
     {

@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 //using DG.Tweening;
 
 // 해야할 일 : 기울기에 따라 플레이어가 너무 움직인다 - 조정필요 
 // 2. 기본 가속도? 
 public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 {
+    public Text text;
     //private CharacterController controller;
     private Transform tr;
     private Transform[] tr_Mesh;
@@ -77,37 +79,75 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
     {
         Move();
         variable &= ~(Constants.BV_bCollisionOthers);
+
+
     }
     void Update()
     {
         //rigidBody.velocity = Vector3.zero;
         //  if(Timer.Instance.gameover.gameObject.SetActive(false))
+        if ((variable & Constants.BV_IsCling) > 0)
+            print("│ isCling");
+
+        //   print("└──────────────────────────────────────────┘");
 
         KeyInput();
         Action();
+<<<<<<< HEAD
         RotateAnimation();  // 플레이어 몸체 회전효과
                             // rigidBody.velocity = Vector3.zero;  // 이것도 해제해야 할 거야 
                             // print("STATE : " + state); // 플레이어 상태확인 
                             //print("Stamina : " + fStamina);
 
+=======
+        RotateAnimation();
+
+
+        // 플레이어 몸체 회전효과
+        // rigidBody.velocity = Vector3.zero;  // 이것도 해제해야 할 거야 
+        // print("STATE : " + state); // 플레이어 상태확인 
+        //print("Stamina : " + fStamina);
+>>>>>>> origin/master
         /*
-                                    print("┌──────────────────────────────────────────┐");
-                                    if ((variable & Constants.BV_IsBoost) > 0)
-                                        print("│ isBoost");
-                                    if ((variable & Constants.BV_bBoost) > 0)
-                                        print("│ bBoost");
-                                    if ((variable & Constants.BV_bCling) > 0)
-                                        print("│ bCling");
-                                    if ((variable & Constants.BV_bStun) > 0)
-                                        print("│ bStun");
-                                    if ((variable & Constants.BV_IsCling) > 0)
-                                        print("│ isCling");
-                                    if ((variable & Constants.BV_ClickRaindrop) > 0)
-                                        print("│ BV_ClickRaindrop");
-                                    if ((variable & Constants.BV_bCollisionOthers) > 0)
-                                        print("│ BV_bCollisionOthers");
-        print("state : " + state);
+
+                print("┌──────────────────────────────────────────┐");
+                if ((variable & Constants.BV_IsBoost) > 0)
+                    print("│ isBoost");
+                if ((variable & Constants.BV_bBoost) > 0)
+                    print("│ bBoost");
+                if ((variable & Constants.BV_bCling) > 0)
+                    print("│ bCling");
+                if ((variable & Constants.BV_bStun) > 0)
+                    print("│ bStun");
+                if ((variable & Constants.BV_IsCling) > 0)
+                    print("│ isCling");
+                if ((variable & Constants.BV_ClickRaindrop) > 0)
+                    print("│ BV_ClickRaindrop");
+                if ((variable & Constants.BV_bCollisionOthers) > 0)
+                    print("│ BV_bCollisionOthers");
+
+print("state : " + state);
+
+               // if (state == Constants.ST_CLING)
+                  //  print("│ state = ST_CLING");
+                //  if ((isInRainzone) == true)
+                //    print("│ isInRainzone");
+
+                if (Player_dest != null)
+                    print("Player_dest : " + Player_dest.tag);
+                else
+                    print("NULL");
+
+                //   print("└──────────────────────────────────────────┘");
+                */
+
+    /*    if (Player_dest == null)//(Constants.BV_IsCling & variable) > 0)
+            text.text = "player_dest = null";
+        else
+            text.text = "player_deest 존재";
+      */  
         
+<<<<<<< HEAD
                                    // if (state == Constants.ST_CLING)
                                       //  print("│ state = ST_CLING");
                                     //  if ((isInRainzone) == true)
@@ -151,19 +191,35 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
 
         }
+=======
+>>>>>>> origin/master
     }
     private void KeyInput()     // StateCheck 로 이름을 바꾸자..
     {
+        /*
+        if (Input.GetKey(KeyCode.Space))
+        {
+            FlyBtDown();
+        }
+        else
+            FlyBtUp();
+
+        if (Input.GetMouseButton(0))
+            Rightbuttondown();
+        else
+            Rightbuttonup();
+            */
+        
         if (state != Constants.ST_STUN)// && state != Constants.ST_CLING)
         {
 //#if UNITY_ANDROID
-  //                fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
-    //             fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
+                fXAngle = Input.acceleration.x * 1.5f;      // fYRotation : 좌우 각도 변경  
+                fYAngle = -(Input.acceleration.y * 1.5f) - 0.7f;    // fXRotatino : 상하 각도 변경 , 0.4 는 각도 좀더 세울수 있게 마이너스 한것      
 //#else
 
            // #if UNITY_ANDROID
-            fXAngle = Input.GetAxis("Horizontal");
-            fYAngle = Input.GetAxis("Vertical");
+           // fXAngle = Input.GetAxis("Horizontal");
+           //fYAngle = Input.GetAxis("Vertical");
 //#endif
 
             if ((-0.15f < fXAngle) && (fXAngle < 0.15f))
@@ -180,6 +236,69 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
 
         ///////////////////////////////////////////////// 마우스왼쪽 클릭
+
+        if(TouchEventManager.Instance.isTouch3DObj == true)
+        {
+            if (TouchEventManager.Instance.raindrop != null)    // touch한 물체가 raindrop이라면 
+            {
+                if (Constants.ST_CLING == state && (variable & Constants.BV_ClickRaindrop) > 0)//true == isCling)    // 붙어있는 상태라면 떨어질 수 있게 한다 . 붙은 상태여야 떨어질 수 있음 
+                {
+                    SetParentNull();
+                    variable &= ~(Constants.BV_bCling); //  bCling = false;
+                    variable &= ~(Constants.BV_IsBoost);
+
+                    Player_dest = null;       // 목표 물방울이 없어진다 
+                    if (dest_script != null)
+                        dest_script.Change_CheckState(false); // 타겟빗방울에게 플레이어가 타겟으로 삼지 않음을 알림 
+                    dest_script = null;
+
+                    variable &= ~(Constants.BV_ClickRaindrop);// isClickRaindrop = false;
+                    variable &= ~(Constants.BV_IsCling);// isCling = false;// state = Constants.ST_FLYING; // 날아가는 상태로 바꿔주자
+                                                        //state = Constants.//isCling = false;            // 붙지 않은 상태가 된다 - 다음번에 알아서 
+                }
+                else if ((variable & Constants.BV_bCling) == 0)//false == bCling)//bClickRaindrop)   // 물방울이 클릭 되지 않은 상태면서 물방울에 붙은 상태가 아니라면 물방울을 클릭한 상태로 바꿔준다, // RAINDROP 레이어어를 가진 물체와 raycast // 상태변경 
+                {
+
+                    if (Player_dest == null)
+                    {
+
+                        Player_dest = TouchEventManager.Instance.raindrop; //CollisionManager.Instance.Get_MouseCollisionObj(100f, "RAINDROP");
+                        if (Player_dest != null)
+                        {
+                            dest_script = Player_dest.GetComponent<RainDrop>();
+                            if (dest_script != null)
+                                dest_script.Change_CheckState(true);    // 빗방울에게 플레이어가 타겟으로 삼았음을 알림
+
+                            variable |= Constants.BV_bCling;//bCling = true;
+                            variable |= Constants.BV_ClickRaindrop;//isClickRaindrop = true;
+
+                            variable |= Constants.BV_IsBoost;
+                        }
+                    }
+                }
+            }
+            else  // touch 물체가 Raindrop이 아니면 
+            {
+                if (Constants.ST_CLING == state && (variable & Constants.BV_ClickRaindrop) > 0)//true == isCling)    // 붙어있는 상태라면 떨어질 수 있게 한다 . 붙은 상태여야 떨어질 수 있음 
+                {
+                    SetParentNull();
+                    variable &= ~(Constants.BV_bCling); //  bCling = false;
+                    variable &= ~(Constants.BV_IsBoost);
+
+                    Player_dest = null;       // 목표 물방울이 없어진다 
+                    if (dest_script != null)
+                        dest_script.Change_CheckState(false); // 타겟빗방울에게 플레이어가 타겟으로 삼지 않음을 알림 
+                    dest_script = null;
+
+                    variable &= ~(Constants.BV_ClickRaindrop);// isClickRaindrop = false;
+                    variable &= ~(Constants.BV_IsCling);// isCling = false;// state = Constants.ST_FLYING; // 날아가는 상태로 바꿔주자
+                                                        //state = Constants.//isCling = false;            // 붙지 않은 상태가 된다 - 다음번에 알아서 
+                }
+            }
+        }
+        
+        /*
+
         if (Input.GetMouseButton(0))
         {
             // state = Constants.ST_FLYING;
@@ -227,7 +346,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                 }
             }
         }
-
+        */
         ///////////////////////////////////////////////// 마우스 왼쪽 뗄 때 
 
 
@@ -259,6 +378,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
         state = Constants.ST_FLYING;
 
+
         if (Boost())
         {
             state = Constants.ST_BOOST;
@@ -271,11 +391,22 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         {
             print("blood");
             state = Constants.ST_BLOOD;
+<<<<<<< HEAD
           
+=======
+            iBlood += 1;
+
+
+            EnemyAI.Instance.angrygauge += 1;        // 이거뭐야;
+>>>>>>> origin/master
 
         }
         else if ((variable & Constants.BV_IsCling) > 0)
+        {
             state = Constants.ST_CLING;
+            //  if((variable & Constants.BV_IsCling) > 0)
+            variable &= ~(Constants.BV_IsMove);     // 붙은상태면 움직이지 않게 함 
+        }
 
         if ((variable & Constants.BV_bStun) > 0)
             state = Constants.ST_STUN;
@@ -302,25 +433,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                         SetState_NotCling();
                     }
                 }
-                /*
-                if (!dest_script.isPlop)  // Player_dest.setActive를 사용하지 않는이유는 구조상..          // 빗방울이 활성화 상태라면 빗방울의 위치를 가져와서 방향벡터를 구함
-                {
-
-                    vDir = (Player_dest.transform.position) - tr.position;
-                    vDir.y -= 1f;
-
-                    vDir.Normalize();
-
-                }
-                else // 목표 빗방울이 비활성화 상태라면 빗방울이 이미 다른 오브젝트에 충돌해서 사라졌다는 소리.빗방울이 없어지게 되면 vDir은 이전에 받은 값을 유지한다.(빗방울이 사라져서 없어진 방향 )
-                {
-                    //   print("목표는 없다");
-                    Player_dest = null;
-                    dest_script = null;
-
-                    SetState_NotCling();
-                }
-                */
+   
             }
         }
     }
@@ -331,6 +444,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
         if (((variable & Constants.BV_bCollisionOthers) == 0) && ((variable & Constants.BV_IsBoost) > 0) && ((variable & Constants.BV_bBoost) > 0) && (fStamina > 0))//(bCheckBoost)) 
         { // 충돌하지 않았고, (_bool 이 true 일때 - 마우스가 클릭상태일때 이면서 , )현재 스테가 스테미나 감소량보다 크고, Boost가 가능할 때 
+         
             if ((variable & Constants.BV_ClickRaindrop) == 0)
                 fStamina -= (fStaminaMinus * Time.deltaTime);
 
@@ -410,7 +524,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
         else if ((state == Constants.ST_STUN)) // 플레이어가 스턴상태이면 중력을 받는 것 처럼 떨어뜨림
         {
-           //   print("2번");
+            //  print("2번");
             // rigidBody.MovePosition(tr.position + (-Vector3.up * Time.deltaTime));
             rigidBody.velocity = (-Vector3.up * 5f * Time.deltaTime);// tr.position + (-Vector3.up * Time.deltaTime);
 
@@ -418,7 +532,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
         else if (!(Constants.ST_CLING == state) && !(Constants.ST_BLOOD == state)) // 어딘가에 붙어있지 않다면. 일반적인 움직임, Boost
         {   // inRainZone = true, nstate != Cling, ==> 3번하고 중복
-            if ((Constants.ST_CLING != state) && (Constants.ST_BLOOD != state) && ((variable & Constants.BV_ClickRaindrop) > 0) && ((variable & Constants.BV_bCling) > 0))//true == isInRainzone && 
+            if (/*(Constants.ST_CLING != state) && (Constants.ST_BLOOD != state) && */((variable & Constants.BV_ClickRaindrop) > 0) && ((variable & Constants.BV_bCling) > 0))//true == isInRainzone && 
             {
                //   print("3번");
                 // rigidBody.MovePosition(tr.position + (vDir * fSpeed * Time.deltaTime)); //이녀석
@@ -428,12 +542,13 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             }
             else
             {
-                //  print("4번");
+                  
                 //  state = Constants.ST_MOVE;
                 tr.Rotate(Vector3.up * fXAngle * Time.deltaTime * fRotSpeed, Space.World);
                 tr.Rotate(Vector3.right * -fYAngle * Time.deltaTime * fRotSpeed, Space.Self);
                 if ((variable & Constants.BV_IsMove) > 0)
                 {
+                 //   print("4번");
                     // 회전 
 
 
@@ -442,7 +557,10 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
                     rigidBody.velocity = (movement * fSpeed);// * Time.deltaTime);
                 }
                 else
+                {
+                  //  print("5번");
                     rigidBody.velocity = Vector3.zero;
+                }
             }
         }
         else // 붙어 있을 시 아무 동작도 하지 않도록 함 
@@ -621,22 +739,28 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         {
             if (Player_dest != null)
             {
+
+                //text.text = "playerDest는 널이 아님 ";
                 if (Player_dest.gameObject == coll.gameObject)    // 충돌한 물체가 목표물과 같다면 달라붙는다 -- 벽이 여기서 에러 
                 {
+                    print("bvcling");
                     variable |= Constants.BV_IsCling;//isCling = true;
                     rigidBody.velocity = Vector3.zero;
                     MakeParent(coll.transform);
+
+                    //text.text = "bv_iscling으로 바꿈";
                 }
                 else    // 충돌한 물체가 목표물과 다르다면 붙으려고 하는 상태 해제됨
                 {
                     StartCoroutine("SetVelocityZero");// 일정시간후 velocity를 0으로 만들어주는 함수고
                     if (fSpeed > OWNMAXSPEED)   // 플레이어가 붙으려고 하지 않으면 충돌 시 데미지를 줄거지.
                         Damaged(5);
+                   // text.text = "bv_iscling이 되지 않음 ";
                 }
             }
             else // 붙으려고 하는 상태인데 목표물이 없다면, 목표물이 사라졌음 ( 빗방울 )
             {
-
+                //text.text = "playerDest는 널임";
                 StartCoroutine("SetVelocityZero");// 일정시간후 velocity를 0으로 만들어주는 함수고
                 if (fSpeed > OWNMAXSPEED)   // 플레이어가 붙으려고 하지 않으면 충돌 시 데미지를 줄거지.
                 {
@@ -701,39 +825,55 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             if (Player_dest != null)
             {
                 //  print("목표물 있고");
+                text.text = "스테이 - 데스트 존재 ";
                 if (Player_dest.gameObject == coll.gameObject)    // 충돌한 물체가 목표물과 같다면 달라붙는다 -- 벽이 여기서 에러 
                 {
+                    print("bvCling");
                     variable |= Constants.BV_IsCling;//isCling = true;
                     rigidBody.velocity = Vector3.zero;
                     MakeParent(coll.transform);
+                    text.text = "IsCling 은 트루 ";
                 }
+                else
+                {
+                    text.text = "스테이 -  Dest : " + Player_dest.gameObject.name + " collision : " + coll.gameObject.name;
+                }
+            }
+            else
+            {
+                text.text = "스테이 - 데스트 존재안함 ";
             }
         }
     }
 
     public void FlyBtDown()
     {
- 
-        variable |= Constants.BV_IsMove;
+        if (state != Constants.ST_CLING)//((variable & Constants.BV_IsCling) == 0)
+        {
+            variable |= Constants.BV_IsMove;
+           // text.text = "FlyBtDown";
+        }
 
     }
     public void FlyBtUp()
     {
-    
-        variable &= ~(Constants.BV_IsMove);
-
+        
+         variable &= ~(Constants.BV_IsMove);
+        
     }
 
     public void boostdown()
     {
-         state = Constants.ST_BOOST;
+
+        state = Constants.ST_BOOST;
         variable |= Constants.BV_IsBoost;
-          variable |= Constants.BV_IsBoost; // 원래 있던거 - 수정중
+        variable |= Constants.BV_IsMove;
 
     }
     public void boostup()
     {
         ///////////////////////////////////////////////// 스페이스바 뗄 때
+        variable &= ~(Constants.BV_IsMove);
            variable &= ~(Constants.BV_IsBoost);//isBoost = false;
                                                // StartCoroutine("DelayStaminaRecovery", 1f);
            if (fStamina < 10)
@@ -744,12 +884,14 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
 
     }
 
-    public void Rightbuttondown()
+    public void ClingBtDown()
     {
-
-        if ((Player_dest = CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
+        //variable &= ~(Constants.BV_IsMove);
+        
+        if ((Player_dest = CollisionManager.Instance.Get_RaycastCollisionObj(tr.position, tr.forward, 10f)) )//CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
         // if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "WALL", 3f))  // 벽에 붙을지 체크 
         {
+<<<<<<< HEAD
             if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "BOX", 30f))
             {
                 variable |= Constants.BV_bTAKE;
@@ -757,12 +899,21 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
            else {
                 variable |= Constants.BV_bCling;//bCling = true;
             }
+=======
+            print("클릭버튼다운이오 *****************************");
+            variable |= Constants.BV_bCling;//bCling = true;
+          //  if((variable & Constants.BV_IsCling) > 0)
+            //    variable &= ~(Constants.BV_IsMove);
+
+          
+>>>>>>> origin/master
             //state = Constants.ST_CLING;//|= Constants.ST_CLING;
+
         }
 
     }
 
-    public void Rightbuttonup()
+    public void ClingBtUp()
     {
 
         if ((variable & Constants.BV_bCling) > 0)//Constants.ST_CLING == state)
@@ -777,9 +928,10 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             variable &= ~(Constants.BV_bCling);//bCling = false;
             variable &= ~(Constants.BV_IsCling);//isCling = false;
             variable &= ~(Constants.BV_bBlood);
-                                                // state = Constants.ST_FLYING;
+            // state = Constants.ST_FLYING;
+            
         }
-
+     
     }
 
     public void SetHP(int _iHP)

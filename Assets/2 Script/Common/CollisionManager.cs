@@ -36,7 +36,20 @@ public class CollisionManager : Singleton<CollisionManager>
         return false;
     }
 
+<<<<<<< HEAD
     public GameObject Get_MouseCollisionObj(float _fDist = 3000f, string _tag = "")
+=======
+    public GameObject Get_RaycastCollisionObj(Vector3 _pos,Vector3 _vDir, float _fDist)
+    {
+        if(Physics.Raycast(_pos, _vDir, out hit, _fDist))
+        {
+            return hit.collider.gameObject;
+        }
+        return null;
+    }
+
+    public GameObject Get_MouseCollisionObj(float _fDist = 3000f, string _Layer = "")   // _Layer 레이어를 가진 물체중에서 마우스와 충돌된 물체 리턴 
+>>>>>>> origin/master
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //   Debug.DrawRay(ray.origin, ray.direction, Color.green); // 여기서 해도 안보여요 
