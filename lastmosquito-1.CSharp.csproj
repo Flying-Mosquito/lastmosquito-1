@@ -97,6 +97,7 @@
     <Compile Include="Assets\2 Script\Common\MyGizimo.cs" />
     <Compile Include="Assets\2 Script\Common\ObjStruct.cs" />
     <Compile Include="Assets\2 Script\Common\Singleton.cs" />
+    <Compile Include="Assets\2 Script\Common\TouchEventManager.cs" />
     <Compile Include="Assets\2 Script\Common\UIManager.cs" />
     <Compile Include="Assets\2 Script\Common\temp.cs" />
     <Compile Include="Assets\2 Script\Login.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Assets\2 Script\Object\Item\Itemdatabase.cs" />
     <Compile Include="Assets\2 Script\Object\Item\Items.cs" />
     <Compile Include="Assets\2 Script\Object\Item\MoveItem.cs" />
+    <Compile Include="Assets\2 Script\Object\MyTempScrip.cs" />
     <Compile Include="Assets\2 Script\Object\PlayerAnimation.cs" />
     <Compile Include="Assets\2 Script\Object\PlayerCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\PlayerPoint.cs" />
@@ -117,8 +119,9 @@
     <Compile Include="Assets\2 Script\Object\Randommove.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChange.cs" />
     <Compile Include="Assets\2 Script\Object\TimescaleChangeFromPlayer.cs" />
-    <Compile Include="Assets\2 Script\Object\TouchEventCtrl.cs" />
+    <Compile Include="Assets\2 Script\Object\UI\BaseButton.cs" />
     <Compile Include="Assets\2 Script\Object\UI\CharacterState.cs" />
+    <Compile Include="Assets\2 Script\Object\UI\ClingBtnCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\FlyBtCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Option.cs" />
     <Compile Include="Assets\2 Script\Object\UI\StageChangeArrowCtrl.cs" />
