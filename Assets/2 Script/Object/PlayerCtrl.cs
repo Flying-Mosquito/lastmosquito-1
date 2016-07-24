@@ -664,9 +664,17 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             iHP = 0;
         }
 
-       
 
-     
+
+
+        if (coll.gameObject.tag == "Box" && Constants.BV_bTAKE>0)
+        {
+            state = Constants.ST_TAKE;
+
+
+
+        }
+
 
         if (coll.gameObject.tag == "Arrive")
         {
@@ -742,9 +750,13 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         if ((Player_dest = CollisionManager.Instance.Get_MouseCollisionObj(100f)) != null)
         // if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "WALL", 3f))  // 벽에 붙을지 체크 
         {
- 
-            variable |= Constants.BV_bCling;//bCling = true;
-
+            if (CollisionManager.Instance.Check_RayHit(tr.position, tr.forward, "BOX", 30f))
+            {
+                variable |= Constants.BV_bTAKE;
+            }
+           else {
+                variable |= Constants.BV_bCling;//bCling = true;
+            }
             //state = Constants.ST_CLING;//|= Constants.ST_CLING;
         }
 
@@ -758,9 +770,10 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
             if (Constants.ST_CLING == state|| Constants.ST_BLOOD==state)
                 SetParentNull();
             /*tr.transform.parent = null;
-            //  tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
+            tr.transform.localScale = new Vector3(1, 1, 1);  // ?? 이거 꼭 필요한가
             ClingObj.transform.parent = null;*/
-
+            tr.transform.localScale = new Vector3(1, 1, 1);
+            variable &= ~(Constants.BV_bTAKE);
             variable &= ~(Constants.BV_bCling);//bCling = false;
             variable &= ~(Constants.BV_IsCling);//isCling = false;
             variable &= ~(Constants.BV_bBlood);
