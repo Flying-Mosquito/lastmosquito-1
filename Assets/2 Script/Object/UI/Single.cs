@@ -29,8 +29,11 @@ public class Single : MonoBehaviour
         //PlayerCtrl.Instance.state = Constants.ST_IDLE;
         PlayerCtrl.Instance.variable &= ~(Constants.BV_Stick);
         PlayerCtrl.Instance.SetStateIdle(true);
-        Timer.Instance.totaltime = 60;
-        Timer.Instance.isEnable = true;
+        if (Timer.Instance != null)
+        {
+            Timer.Instance.totaltime = 60;
+            Timer.Instance.isEnable = true;
+        }
     }
     public void Multi()
 
@@ -38,3 +41,4 @@ public class Single : MonoBehaviour
         SceneManager.LoadScene(14);
     }
 }
+

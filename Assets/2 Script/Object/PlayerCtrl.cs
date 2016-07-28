@@ -175,7 +175,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         }
 
         ///////////////////////////////////////////////// 마우스왼쪽 클릭
-     //   print("isTouch3DObj : " + TouchEventManager.Instance.isTouchBegin3DObj);
+        //print("isTouch3DObj : " + TouchEventManager.Instance.isTouchBegin3DObj);
         if (TouchEventManager.Instance.isTouchBegin3DObj == true)
         {
             if (TouchEventManager.Instance.raindrop != null)    // touch한 물체가 raindrop이라면 
@@ -332,10 +332,7 @@ public class PlayerCtrl : Singleton<PlayerCtrl>//MonoBehaviour
         {
             print("blood");
             state = Constants.ST_BLOOD;
-            iBlood += 1;
-
-
-            EnemyAI.Instance.angrygauge += 1;        // 이거뭐야;
+          
 
         }
         else if ((variable & Constants.BV_IsCling) > 0)
