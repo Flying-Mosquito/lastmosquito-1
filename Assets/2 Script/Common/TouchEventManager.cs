@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class TouchEventManager : Singleton<TouchEventManager>//MonoBehaviour
 {
-    //public Text TempText;
-    //public Text TempText2;
-   // public Text TempText3;
-   // public Text TempText4;
+    public Text TempText;
+    public Text TempText2;
+    public Text TempText3;
+    public Text TempText4;
 
     public bool isTouchBegin3DObj; // 버튼 이외의 곳을 터치했는 지 체크 
     public GameObject raindrop;
@@ -129,11 +129,11 @@ public class TouchEventManager : Singleton<TouchEventManager>//MonoBehaviour
                     if (col = Physics2D.OverlapPoint(_pos))//Physics.Raycast(ray, out hit, 30000f))//, 1 << LayerMask.NameToLayer("UI")))
                     {
                         isTouchBegin3DObj = false;
-                     /*   if (col.gameObject.name == "HoldButton")
+                        if (col.gameObject.name == "HoldButton")
                             TempText4.text = Input.touchCount.ToString();//"HOLDBUTTON down";
                         else
                             TempText4.text = "";
-                            */
+
                         touchObject[_iFingerId] = col.gameObject.GetComponent<BaseButton>();//col.gameObject;
                         /* hit.transform.SendMessage("OnTouchBegin", new Vector2(_fX, _fY));
 
