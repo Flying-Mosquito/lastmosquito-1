@@ -30,7 +30,7 @@ public class CheckStage : MonoBehaviour {
         }
         if(clear==true)
         {
-            Stage1.1 = new Color(0, 144 / 255, 60 / 255);
+         
         }
        
      

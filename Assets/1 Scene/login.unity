@@ -183,8 +183,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44bdcb070c0b7d14eaaa0e39dbebbf91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentMenu: 4c6f67696e
+  CurrentMenu: Login
   X: 0
   Y: 0
   Width: 0
   Height: 0
+  control: 60

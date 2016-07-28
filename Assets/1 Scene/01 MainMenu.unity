@@ -1055,8 +1055,8 @@ GameObject:
   - 224: {fileID: 1037822267}
   - 222: {fileID: 1037822269}
   - 114: {fileID: 1037822268}
-  - 114: {fileID: 1037822270}
   - 114: {fileID: 1037822271}
+  - 114: {fileID: 1037822270}
   m_Layer: 5
   m_Name: Image -title
   m_TagString: Untagged
