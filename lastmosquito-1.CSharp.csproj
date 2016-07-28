@@ -118,10 +118,12 @@
     <Compile Include="Assets\2 Script\Object\TimescaleChangeFromPlayer.cs" />
     <Compile Include="Assets\2 Script\Object\UI\BaseButton.cs" />
     <Compile Include="Assets\2 Script\Object\UI\CharacterState.cs" />
+    <Compile Include="Assets\2 Script\Object\UI\CheckStage.cs" />
     <Compile Include="Assets\2 Script\Object\UI\ClingBtnCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\FlyBtCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Multi.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Option.cs" />
+    <Compile Include="Assets\2 Script\Object\UI\SelectStage.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Single.cs" />
     <Compile Include="Assets\2 Script\Object\UI\StageChangeArrowCtrl.cs" />
     <Compile Include="Assets\2 Script\Object\UI\Timer.cs" />
