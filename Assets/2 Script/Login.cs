@@ -4,8 +4,9 @@ using UnityEngine.SceneManagement;
 public class Login : MonoBehaviour {
     #region Variables
     //Static Variables
-    public static string Email = "";
+    public static string ID = "";
     public static string Password = "";
+    public static string NickName = "";
     //Public Variables
     public string CurrentMenu = "Login";
     //Private Variables
@@ -13,7 +14,7 @@ public class Login : MonoBehaviour {
    // private string LoginUrl = "";
     private string ConfrimPass = "";
     private string ConfirmEmail = "";
-    private string CEmail = "";
+    private string CID = "";
     private string Cpassword = "";
 
     //GUI Test section
@@ -58,11 +59,13 @@ public class Login : MonoBehaviour {
         Application.LoadLevel(13);
 
         }
-        GUI.Label(new Rect(300 - control*2, 200 - control, 220, 25), "Email");
-        Email = GUI.TextField(new Rect(390 - control*2, 225 - control, 220,25), Email);
+        GUI.Label(new Rect(300 - control*2, 200 - control, 220, 25), "ID");
+        ID = GUI.TextField(new Rect(390 - control*2, 225 - control, 220,25), ID);
 
         GUI.Label(new Rect(300 - control*2, 250 - control, 220, 25), "Password");
         Password = GUI.TextField(new Rect(390 - control*2, 275 - control, 220, 25), Password);
+
+     
 
     }
     public void Click()
@@ -79,23 +82,25 @@ public class Login : MonoBehaviour {
         GUI.Box(new Rect(280 - control*2, 120 - control, (Screen.width / 4) + 200, (Screen.height / 4) + 250), "Create Account");
 
      
-        GUI.Label(new Rect(370 - control*2, 200 - control, 220, 25), "Email");
-        CEmail = GUI.TextField(new Rect(390 - control * 2, 225 - control, 220, 25), CEmail);
+        GUI.Label(new Rect(370 - control*2, 200 - control, 220, 25), "ID");
+        CID = GUI.TextField(new Rect(390 - control * 2, 225 - control, 220, 25), CID);
 
         GUI.Label(new Rect(370 - control * 2, 250 - control, 220, 25), "Password");
         Cpassword = GUI.TextField(new Rect(390 - control * 2, 275 - control, 220, 25), Cpassword);
 
+        GUI.Label(new Rect(300 - control * 2, 200 - control, 220, 25), "NickName");
+        NickName = GUI.TextField(new Rect(390 - control * 2, 300 - control, 220, 25), NickName);
 
         GUI.Label(new Rect(370 - control * 2, 320 - control, 220, 25), "Confirm Email");
-        ConfirmEmail = GUI.TextField(new Rect(390 - control * 2, 340 - control, 220, 25), ConfirmEmail);
+        ConfirmEmail = GUI.TextField(new Rect(390 - control * 2, 350 - control, 220, 25), ConfirmEmail);
 
         GUI.Label(new Rect(370 - control * 2, 370 - control, 220, 25), "Confirm Password");
-       ConfrimPass = GUI.TextField(new Rect(390 - control * 2, 400 - control, 220, 25), ConfrimPass);
+       ConfrimPass = GUI.TextField(new Rect(390 - control * 2, 410 - control, 220, 25), ConfrimPass);
 
 
         if (GUI.Button(new Rect(360 - control * 2, 460 - control, 120, 25), "Create Account"))
         {
-            if (ConfrimPass == Cpassword && ConfirmEmail == CEmail) {
+            if (ConfrimPass == Cpassword && ConfirmEmail == CID) {
                 StartCoroutine("Create Account");
             }
             else
